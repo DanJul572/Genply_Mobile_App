@@ -1,0 +1,115 @@
+{
+    "translation": {
+        /*========== Button ==========*/
+        "login_button": "Login",
+        "register_button": "Register",
+        "next_button": "Next",
+        "save_button": "Save",
+        "prev_button": "Prev",
+        "submit_button": "Submit",
+        "show_more_button": "Show more",
+        "apply_button": "Apply",
+        "all_button": "All",
+        "installed_button": "Installed",
+        "update_button": "Update",
+        "open_button": "Open",
+
+        /*========== Title ==========*/
+        "register_title": "Create Account",
+        "change_password_title_1": "Enter your old password",
+        "change_password_title_2": "Set new password",
+        "game_review_title": "Game review",
+        "report_title": "List of point that have been obtained",
+
+        /*========== Topbar ==========*/
+        "chose_avatar_topbar": "Chose Avatar",
+        "detailed_notification_topbar": "Detailed Notification",
+        "notification_topbar": "Notification",
+        "detailed_description_topbar": "Detailed Description",
+        "additional_game_filters_topbar": "Game Filter",
+        "report_topbar": "Report",
+        "leaderboard_topbar": "Leaderboard Of The Month",
+        "local_leaderboard_topbar": "Local Leaderboard Of The Month",
+        
+        /*========== Field ==========*/
+        "name_field": "Name",
+        "gender_field": "Gender",
+        "brith_field": "Date Of Brith",
+        "grade_field": "Grade",
+        "phone_field": "Phone",
+        "email_field": "Email",
+        "password_field": "Password",
+        "confirm_password_field": "Confirm Password",
+        "old_password_field": "Old Password",
+        "age_field": "Age",
+        
+        /*========== Text ==========*/
+        "slogan_text": "EVERYONE CAN LEARN AND PLAY!",
+        "or_text": "Or",
+        "comming_soon_text": "Coming soon",
+        "coins_text": "Coins",
+        "shop_text": "Shop",
+        "sugestion_text": "Sugestion",
+        "help_text": "Help",
+        "setting_text": "Setting",
+        "activity_text": "Activity",
+        "change_password_text": "Change password",
+        "set_location_text": "Set location",
+        "sign_out_text": "Sign out",
+        "out_of_text": "Out of",
+        "reviews_text": "Review",
+        "description_text": "Description",
+        "information_text": "Information",
+        "version_text": "Version",
+        "size_text": "Size",
+        "others_text": "Others",
+        "popular_text": "Popular",
+        "recomended_text": "Recomended",
+        "highest_rating_text": "Highest Rating",
+        "top_player_text": "Top players of the month",
+        "top_local_player_text": "Top local players of the month",
+        "last_top_player_text": "Last month's top players",
+        "last_local_player_text": "Last month's top local players",
+        "point_text": "Points",
+        "report_text": "Report",
+
+        /*========== Message ==========*/
+        "email_not_verified_message": "E-mail is not verified.",
+        "password_wrong_message": "The password you entered is wrong.",
+        "password_changed": "Your password has been changed successfully.",
+        "email_not_registered_message": "E-mail is not registered.",
+        "apple_register_error_message": "You have tried to sign in before, but the account is still not registered. Go to Settings and remove Apple ID for this app, then try again.",
+        "location_same": "The location is still the same.",
+        "location_changed": "Location changed successfully.",
+        "profile_changed": "Profile updated successfully.",
+        "profile_registered": "The account has been successfully registered, please check your email for verification.",
+
+        /*========== Options ==========*/
+        "galery_option": "Gallery",
+        "avatar_option": "Avatar",
+        "cancel_option": "Cancel",
+        "male_option": "Male",
+        "female_option": "Female",
+        "edit_option": "Edit",
+        "delete_option": "Delete",
+
+        /*========== Alert ==========*/
+        "empty_data_alert": "Data is not avalaible.",
+        "not_ranked": "You don't have any points this month.",
+        "duplicate_email": "E-mail already registered.",
+        "location_not_set": "Your location has not been set.",
+
+        /*========== Popup ==========*/
+        "confirmation_title_popup": "Confirmation",
+        "exit_app_description_popup": "Are you sure you want to exit ?",
+        "confirm_button_popup": "Yes",
+        "cancel_button_popup": "No",
+
+        /*========== Placeholder ==========*/
+        "optional_description_placeholder": "Description of your experience (optional)",
+        "search_placeholder": "Search",
+
+        /*========== Validation ==========*/
+        "rating_required_validation": "Rating is required."
+    }
+}

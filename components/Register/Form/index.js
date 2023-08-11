@@ -1,0 +1,362 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import RNPickerSelect from 'react-native-picker-select';
+import * as Progress from 'react-native-progress';
+import { useValidation } from 'react-native-form-validator';
+import { BASE_URL, COLOR_PRIMARY, LOCALIZE, WINDOW_HEIGHT, WINDOW_WIDTH } from '../../../utils/constant';
+import Spinner from 'react-native-loading-spinner-overlay';
+import axios from 'axios';
+import { score } from 'react-native-zxcvbn';
+import { useTranslation } from 'react-i18next';
+
+const Form = ({ navigation }) => {
+    const { t } = useTranslation();
+
+    const [name, setName] = useState('');
+    const [gender, setGender] = useState('Laki-Laki');
+    const [brith, setBrith] = useState(new Date());
+    const [grade, setGrade] = useState('1-SD');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordScore, setPasswordScore] = useState({
+        score: 0,
+        width: 0,
+        color: 'transparent'
+    });
+
+    const { validate, isFieldInError, getErrorsInField } = useValidation({
+        state: { name, gender, brith, grade, email, password, confirmPassword },
+        deviceLocale: LOCALIZE,
+        labels: {
+            name: t('name_field'),
+            gender: t('gender_field'),
+            brith: t('brith_field'),
+            grade: t('grade_field'),
+            email: t('email_field'),
+            password: t('password_field'),
+            confirmPassword: t('confirm_password_field'),
+        }
+    });
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const [firstOpened, setFirstOpened] = useState(true);
+
+    const changePasswordScore = (password) => {
+        setPassword(password);
+        let passwordScore = score(password);
+        passwordScore.then(score => {
+            let color = '';
+            let width = 0;
+            if (score == 0) {
+                color = '#ff2900';
+                width = 20;
+            } else if (score == 1) {
+                color = '#ff6900';
+                width = 40;
+            } else if (score == 2) {
+                color = '#f3d331';
+                width = 60;
+            } else if (score == 3) {
+                color = '#14eb6e';
+                width = 80;
+            } else if (score == 4) {
+                color = '#00ff6b';
+                width = 100;
+            }
+            setPasswordScore({
+                score: score,
+                width: width / 100,
+                color: color
+            });
+        });
+    }
+
+    const onSubmitForm = () => {
+        let valid = validate({
+            name: { required: true },
+            gender: { required: true },
+            brith: { required: true },
+            grade: { required: true },
+            email: { required: true, email: true },
+            password: { required: true, minlength: 8 },
+            confirmPassword: { required: true, minlength: 8, equalPassword: password }
+        });
+        if (valid) {
+            signin();
+        }
+    }
+
+    useEffect(() => {
+        if ((firstOpened) || (refreshing)) {
+            cleanForm();
+        }
+    }, [firstOpened, refreshing]);
+
+    const signin = async () => {
+        setLoading(true);
+        let url = BASE_URL + '/api/savedatafromapp';
+        let body = {
+            email: email,
+            nama: name,
+            gender: gender,
+            brithday: (brith.getMonth() + 1) + '/' + (brith.getDate()) + '/' + (brith.getFullYear()),
+            address: '-',
+            city: '-',
+            province: '-',
+            country: '-',
+            grade: grade,
+            password: password
+        }
+        axios.post(url, body)
+            .then(response => {
+                if (response.data.message == 'duplicate email') {
+                    setAlert(t('duplicate_email'));
+                    setLoading(false);
+                } else {
+                    cleanForm();
+                    setLoading(false);
+                    navigation.navigate('Login', {
+                        flash_message: {
+                            color: '#1BA146',
+                            message: t('profile_registered')
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                setLoading(false);
+                Alert.alert('Error', error.message);
+            });
+    }
+
+    const cleanForm = () => {
+        setName('');
+        setGender('Laki-Laki');
+        setBrith(new Date());
+        setGrade('1-SD');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setPasswordScore({
+            score: 0,
+            width: 0,
+            color: 'transparent'
+        });
+    }
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
+    const onRefresh = useCallback(() => {
+        setFirstOpened(false);
+        setRefreshing(true);
+        wait(0).then(() => {
+            setRefreshing(false);
+        });
+    }, []);
+
+    return (
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.mid}
+            refreshControl={
+                <RefreshControl
+                    colors={[COLOR_PRIMARY]}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+            style={styles.container}
+        >
+            <Spinner visible={loading} />
+            <View style={styles.title_container}>
+                <Text style={styles.title_text}>{t('register_title').toUpperCase()}</Text>
+            </View>
+            {(alert) && (
+                <View style={styles.alert_container}>
+                    <Text style={styles.alert_text}>{alert}</Text>
+                </View>
+            )}
+            <View style={styles.input_container}>
+                <Text style={styles.label}>{t('name_field')} : </Text>
+                <TextInput style={styles.text_input} value={name} onChangeText={setName} />
+                {(isFieldInError('name')) && (
+                    <Text style={styles.error_message}>{getErrorsInField('name')[0]}</Text>
+                )}
+            </View>
+            <View style={styles.input_container}>
+                <Text style={styles.label}>{t('grade_field')} : </Text>
+                <RNPickerSelect
+                    onValueChange={(value) => setGrade(value)}
+                    placeholder={{}}
+                    style={inputSelect}
+                    useNativeAndroidPickerStyle={false}
+                    value={grade}
+                    items={[
+                        { label: '1 - SD', value: '1-SD' },
+                        { label: '2 - SD', value: '2-SD' },
+                        { label: '3 - SD', value: '3-SD' },
+                        { label: '4 - SD', value: '4-SD' },
+                        { label: '5 - SD', value: '5-SD' },
+                        { label: '6 - SD', value: '6-SD' },
+                        { label: '7 - SMP', value: '7-SMP' },
+                        { label: '8 - SMP', value: '8-SMP' },
+                        { label: '9 - SMP', value: '9-SMP' },
+                        { label: '10 - SMA', value: '10-SMA' },
+                        { label: '11 - SMA', value: '11-SMA' },
+                        { label: '12 - SMA', value: '12-SMA' },
+                        { label: '10 - SMK', value: '10-SMK' },
+                        { label: '11 - SMK', value: '11-SMK' },
+                        { label: '12 - SMK', value: '12-SMK' },
+                        { label: 'KULIAH', value: 'KULIAH' },
+                    ]}
+                />
+                {(isFieldInError('grade')) && (
+                    <Text style={styles.error_message}>{getErrorsInField('grade')[0]}</Text>
+                )}
+            </View>
+            <View style={styles.input_container}>
+                <Text style={styles.label}>{t('email_field')} : </Text>
+                <TextInput autoCapitalize='none' style={styles.text_input} value={email} onChangeText={setEmail} />
+                {(isFieldInError('email')) && (
+                    <Text style={styles.error_message}>{getErrorsInField('email')[0]}</Text>
+                )}
+            </View>
+            <View style={styles.input_container}>
+                <Text style={styles.label}>{t('password_field')} : </Text>
+                <TextInput autoCapitalize='none' style={styles.text_input} value={password} onChangeText={value => changePasswordScore(value)} secureTextEntry={true} />
+                <Progress.Bar
+                    style={{ marginTop: WINDOW_WIDTH * 0.01 }}
+                    progress={passwordScore.width}
+                    width={null}
+                    height={WINDOW_HEIGHT * 0.01}
+                    borderRadius={WINDOW_WIDTH * 0.05}
+                    color={passwordScore.color}
+                    unfilledColor={'#EFEFEF'}
+                    borderColor={'transparent'}
+                    animated={false}
+                />
+                {(isFieldInError('password')) && (
+                    <Text style={styles.error_message}>{getErrorsInField('password')[0]}</Text>
+                )}
+            </View>
+            <View style={styles.input_container}>
+                <Text style={styles.label}>{t('confirm_password_field')} : </Text>
+                <TextInput autoCapitalize='none' style={styles.text_input} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry={true} />
+                {(isFieldInError('confirmPassword')) && (
+                    <Text style={styles.error_message}>{getErrorsInField('confirmPassword')[0]}</Text>
+                )}
+            </View>
+            <View style={styles.input_container}>
+                {(passwordScore.score >= 2) && (
+                    <TouchableOpacity onPress={() => onSubmitForm()} activeOpacity={1}>
+                        <View style={styles.submit_button}>
+                            <Text style={styles.submit_button_text}>{t('register_button')}</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            </View>
+        </ScrollView>
+    )
+}
+
+export default Form
+
+const styles = StyleSheet.create({
+    container: {
+        padding: WINDOW_WIDTH * 0.05,
+        flex: 1
+    },
+    title_container: {
+        marginBottom: WINDOW_WIDTH * 0.05
+    },
+    title_text: {
+        color: '#000000',
+        textAlign: 'center',
+        fontFamily: 'Roboto-Bold',
+        fontSize: WINDOW_WIDTH * 0.04
+    },
+    alert_container: {
+        marginBottom: WINDOW_WIDTH * 0.035
+    },
+    alert_text: {
+        color: '#EB3131',
+        fontFamily: 'Poppins-Regular',
+        fontSize: WINDOW_WIDTH * 0.03,
+        textAlign: 'center',
+        padding: WINDOW_WIDTH * 0.01,
+        borderRadius: WINDOW_WIDTH * 0.01
+    },
+    input_container: {
+        marginBottom: WINDOW_WIDTH * 0.035
+    },
+    label: {
+        fontFamily: 'Roboto-Medium',
+        color: '#788389',
+        fontSize: WINDOW_WIDTH * 0.03,
+        marginBottom: WINDOW_WIDTH * 0.005
+    },
+    text_input: {
+        backgroundColor: '#ECECEC',
+        fontFamily: 'Roboto-Medium',
+        borderRadius: WINDOW_WIDTH * 0.02,
+        padding: WINDOW_WIDTH * 0.025,
+        color: '#788389'
+    },
+    date_input: {
+        backgroundColor: '#ECECEC',
+        fontFamily: 'Roboto-Medium',
+        borderRadius: WINDOW_WIDTH * 0.02,
+        paddingHorizontal: WINDOW_WIDTH * 0.025,
+        paddingVertical: WINDOW_WIDTH * 0.035,
+        color: '#788389'
+    },
+    button_container: {
+        marginTop: WINDOW_WIDTH * 0.1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: WINDOW_WIDTH * 0.05
+    },
+    button_text: {
+        fontFamily: 'Roboto-Medium',
+        textAlign: 'center'
+    },
+    submit_button: {
+        backgroundColor: '#009FD3',
+        padding: WINDOW_WIDTH * 0.025,
+        borderRadius: WINDOW_WIDTH * 0.05
+    },
+    submit_button_text: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontFamily: 'Roboto-Medium',
+        fontSize: WINDOW_WIDTH * 0.03
+    },
+    error_message: {
+        color: '#eb3131',
+        fontFamily: 'Poppins-Bold',
+        fontSize: WINDOW_WIDTH * 0.025,
+        marginTop: WINDOW_WIDTH * 0.015
+    },
+});
+
+const inputSelect = StyleSheet.create({
+    inputIOS: {
+        backgroundColor: '#ECECEC',
+        fontFamily: 'Roboto-Medium',
+        borderRadius: WINDOW_WIDTH * 0.02,
+        padding: WINDOW_WIDTH * 0.025,
+        color: '#788389'
+    },
+    inputAndroid: {
+        backgroundColor: '#ECECEC',
+        fontFamily: 'Roboto-Medium',
+        borderRadius: WINDOW_WIDTH * 0.02,
+        padding: WINDOW_WIDTH * 0.025,
+        color: '#788389'
+    },
+});

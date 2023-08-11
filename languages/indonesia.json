@@ -1,0 +1,115 @@
+{
+    "translation": {
+        /*========== Button ==========*/
+        "login_button": "Masuk",
+        "register_button": "Daftar",
+        "prev_button": "Sebelumnya",
+        "next_button": "Selanjutnya",
+        "save_button": "Simpan",
+        "submit_button": "Kirim",
+        "show_more_button": "Lebih banyak",
+        "apply_button": "Terapkan",
+        "all_button": "Semua",
+        "installed_button": "Terpasang",
+        "update_button": "Pembaruan",
+        "open_button": "Buka",
+
+        /*========== Title ==========*/
+        "register_title": "Buat Akun",
+        "change_password_title_1": "Masukan kata sandi sebelumnya",
+        "change_password_title_2": "Atur kata sandi baru",
+        "report_title": "Daftar poin yang telah diperoleh",
+
+        /*========== Topbar ==========*/
+        "chose_avatar_topbar": "Pilih Avatar",
+        "detailed_notification_topbar": "Detail Notifikasi",
+        "notification_topbar": "Notifikasi",
+        "detailed_description_topbar": "Detail Deskripsi",
+        "game_review_title": "Ulasan game",
+        "additional_game_filters_topbar": "Filter Permainan",
+        "report_topbar": "Laporan",
+        "leaderboard_topbar": "Papan Petingkat Bulan Ini",
+        "local_leaderboard_topbar": "Papan Petingkat Lokal Bulan Ini",
+
+        /*========== Field ==========*/
+        "name_field": "Nama",
+        "gender_field": "Jenis Kelamin",
+        "brith_field": "Tanggal Lahir",
+        "grade_field": "Kelas",
+        "phone_field": "Nomor Tlp",
+        "email_field": "Email",
+        "password_field": "Kata Sandi",
+        "confirm_password_field": "Konfirmasi Kata Sandi",
+        "old_password_field": "Kata Kandi Sebelumnya",
+        "age_field": "Umur",
+
+        /*========== Text ==========*/
+        "slogan_text": "EVERYONE CAN LEARN AND PLAY!",
+        "or_text": "Atau",
+        "comming_soon_text": "Segera hadir",
+        "coins_text": "Koin",
+        "shop_text": "Toko",
+        "sugestion_text": "Saran",
+        "help_text": "Bantuan",
+        "setting_text": "Pengaturan",
+        "activity_text": "Aktifitas",
+        "change_password_text": "Ubah kata sandi",
+        "set_location_text": "Atur lokasi",
+        "sign_out_text": "Keluar",
+        "out_of_text": "Dari",
+        "reviews_text": "Ulasan",
+        "description_text": "Deskripsi",
+        "information_text": "Informasi",
+        "version_text": "Versi",
+        "size_text": "Ukuran",
+        "others_text": "Lainnya",
+        "popular_text": "Populer",
+        "recomended_text": "Direkomendasikan",
+        "highest_rating_text": "Peringkat tertinggi",
+        "top_player_text": "Pemain teratas bulan ini",
+        "top_local_player_text": "Pemain local teratas bulan ini",
+        "last_top_player_text": "Pemain teratas bulan lalu",
+        "last_local_player_text": "Pemain lokal teratas bulan lalu",
+        "point_text": "Poin",
+        "report_text": "Laporan",
+
+        /*========== Message ==========*/
+        "email_not_verified_message": "E-mail tidak terverifikasi.",
+        "password_wrong_message": "Kata sandi yang anda masukan salah.",
+        "password_changed": "Kata sandi Anda berhasil diubah.",
+        "email_not_registered_message": "E-mail tidak terdaftar.",
+        "apple_register_error_message": "Anda telah mencoba masuk sebelumnya, tetapi akunnya masih belum terdaftar. Buka Pengaturan dan hapus ID Apple untuk aplikasi ini, lalu coba lagi.",
+        "location_same": "Lokasi masih sama.",
+        "location_changed": "Lokasi berhasil diubah.",
+        "profile_changed": "Profil berhasil diperbarui.",
+        "profile_registered": "Akun telah berhasil didaftarkan, silahkan cek email Anda untuk verifikasi.",
+
+        /*========== Options ==========*/
+        "galery_option": "Galeri",
+        "avatar_option": "Avatar",
+        "cancel_option": "Batal",
+        "male_option": "Laki-Laki",
+        "female_option": "Perempuan",
+        "edit_option": "Edit",
+        "delete_option": "Hapus",
+
+        /*========== Alert ==========*/
+        "empty_data_alert": "Data tidak tersedia.",
+        "not_ranked": "Anda tidak memiliki poin apa pun bulan ini.",
+        "duplicate_email": "E-mail sudah terdaftar",
+        "location_not_set": "Lokasi anda belum diatur.",
+
+        /*========== Popup ==========*/
+        "confirmation_title_popup": "Konfirmasi",
+        "exit_app_description_popup": "Anda yakin ingin keluar ?",
+        "confirm_button_popup": "Iya",
+        "cancel_button_popup": "Batal",
+
+        /*========== Placeholder ==========*/
+        "optional_description_placeholder": "Deskripsi pengalaman Anda (opsional)",
+        "search_placeholder": "Cari",
+
+        /*========== Validation ==========*/
+        "rating_required_validation": "Rating harus diisi."
+    }
+}
